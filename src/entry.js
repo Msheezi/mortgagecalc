@@ -11,6 +11,12 @@ export const Entry = () => {
         // console.log(values)
         let data = {}
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    })
+
+
     const runCals = (vals) => {
         let iterations = vals.duration
         let monthInt = parseFloat(vals.interest) / 1200.0
@@ -47,8 +53,8 @@ export const Entry = () => {
                 // console.log(iterations, monthInt, compoundInt, multiplier, payment, interest, principlePay)
             }
             // console.log(data)
-        totalInt = Math.round((totalInt * 100) / 100.00)
-        totalPay = Math.round((totalPay * 100) / 100.00)
+        totalInt = formatter.format(totalInt)
+        totalPay = formatter.format(totalPay)
 
         setInterest(totalInt)
         setPayments(totalPay)
@@ -58,11 +64,7 @@ export const Entry = () => {
         //    return <AmortLayout props={data}/>
     }
 
-    const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    })
-
+   
 
    const renderAmort = (state) => {
       
@@ -70,7 +72,7 @@ export const Entry = () => {
         let objArr = Object.keys(state).map(key => {
            return (
         <>
-            <div key={key}>{key}</div>
+            <div className="month" key={key}>{key}</div>
             <div >{formatter.format(state[key].payment)}</div>
             <div >{formatter.format(state[key].interest )}</div>
             <div >{formatter.format(state[key].principlePay )}</div>
