@@ -16,6 +16,17 @@ export const Entry = () => {
         currency: 'USD',
     })
 
+    // use the function below to create an array to use in creating
+    //extra payments for a particular range of months(indexes) for adding 
+    // extra payments
+    const range = (start, end) => {
+       let ans = []
+        for (let i=start;i<=end;i++){
+            ans.push(i)
+        }
+        
+    }
+
 
     const runCals = (vals) => {
         let iterations = vals.duration
