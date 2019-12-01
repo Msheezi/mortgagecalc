@@ -4,10 +4,11 @@ import { useForm } from './useForm'
 export const Entry = () => {
 
     const [state, setState] = useState({})
+    const [extraState, setExtraState] = useState({})
     const [payments, setPayments] = useState()
     const [interest, setInterest] = useState()
 
-    const [values, handleChange] = useForm({principle:"", interest: "", duration: "", extraPay: "" })
+    const [values, handleChange] = useForm({principle:"", interest: "", duration: "", extraPay: "", start: "", end:"" })
         // console.log(values)
         let data = {}
 
@@ -21,6 +22,9 @@ export const Entry = () => {
     // extra payments.  probably do this for each input range
     const range = (start, end, value) => {
        let ans = []
+       if (!end){
+           end = state.vals.duration
+       }
         for (let i=start;i<=end;i++){
             ans.push([i, value])
         }
@@ -146,6 +150,13 @@ export const Entry = () => {
         //    return <AmortLayout props={data}/>
     }
 
+    const runAllCalcs = (values) => {
+        runCals(values)
+        if (values.extra){
+            range(values.start, values.end, values.extraPay)
+            runCalsExtra(values)
+        }
+    }
    
 
    const renderAmort = (state) => {
@@ -166,7 +177,13 @@ export const Entry = () => {
        return objArr
     }
 }
-
+    const whichAmort = () => {
+        if (extraState){
+            return extraState
+        } else {
+            return state
+        }
+    }
       
 
     return (
@@ -186,6 +203,12 @@ export const Entry = () => {
             <label> Extra Monthly Payments:
                 <input type='text' name="extraPay" value={values.extraPay} onChange={handleChange}></input>
             </label>
+            <label> Extra Monthly Payments Start:
+                <input type='text' name="start" value={values.extraPay} onChange={handleChange}></input>
+            </label>
+            <label> Extra Monthly Payments End:
+                <input type='text' name="end" value={values.extraPay} onChange={handleChange}></input>
+            </label>
         </div>
             <button onClick={() => setState(runCalsExtra(values)) }>Calculate</button>
             <div>Total Interest Paid: {interest ? interest : ""} </div>
@@ -200,8 +223,8 @@ export const Entry = () => {
                 <div className="header">Principal</div>
                 {/* <div className="month-header">ExtraPayment</div> */}
                 <div className="header">Balance</div>
-
-                    {renderAmort(state)}
+                    
+                    {renderAmort( whichAmort)}
                 
             </div>
             
