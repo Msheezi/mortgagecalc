@@ -29,6 +29,13 @@ export const Entry = () => {
 
 
     const runCals = (vals) => {
+//add function to combine all the extra payments by index number and sum the 
+//extra payments by index number to add into formula
+//adjust payments to check index and add in the payment value, be sure to add in 
+//the payments for display
+// duplicate function to compare
+// add summary to show the extra payments, reduced number of months and savings
+
         let iterations = vals.duration
         let monthInt = parseFloat(vals.interest) / 1200.0
         let calcPrinciple = vals.principle
