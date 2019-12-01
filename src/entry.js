@@ -72,7 +72,7 @@ export const Entry = () => {
         let objArr = Object.keys(state).map(key => {
            return (
         <>
-            <div className="month" key={key}>{key}</div>
+            <div className="month" key={key}>{parseInt(key) + 1}</div>
             <div >{formatter.format(state[key].payment)}</div>
             <div >{formatter.format(state[key].interest )}</div>
             <div >{formatter.format(state[key].principlePay )}</div>
