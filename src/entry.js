@@ -1,11 +1,12 @@
-import React from 'react'
+import React, {useState} from 'react'
 import { useForm } from './useForm'
+import {AmortLayout} from './amortLayout'
 
 export const Entry = () => {
 
+    const [state, setState] = useState({})
     const [values, handleChange] = useForm({principle:"", interest: "", duration: "" })
         // console.log(values)
-
         let data = {}
 
     const runCals = (vals) => {
@@ -13,6 +14,9 @@ export const Entry = () => {
         let monthInt = parseFloat(vals.interest) / 1200.0
         let calcPrinciple = vals.principle
         let remainingMonths = vals.duration
+        let totalInt = 0
+        let totalPay = 0
+        
         
         for( let i = 0;i< iterations;i++){
            
@@ -26,22 +30,30 @@ export const Entry = () => {
                 interest = Math.round(calcPrinciple * monthInt * 100) / 100
                 principlePay = Math.round((payment - interest) * 100) / 100
                 calcPrinciple = Math.round((calcPrinciple - payment) * 100) / 100
+                totalInt += interest
+                totalPay += payment
             } else {
                 calcPrinciple = Math.round((calcPrinciple - principlePay) * 100) /100
-
+                totalInt += interest
+                totalPay += payment
             }
 
-
-
-
-                data[`months${i}`] = {payment, interest, principlePay, calcPrinciple}
+                data[i] = {payment, interest, principlePay, calcPrinciple}
+                data["totalInterest"] = Math.round(totalInt * 100) / 100
+                data["totalPayments"] = Math.round(totalPay *100) / 100
                 
                 // console.log(iterations, monthInt, compoundInt, multiplier, payment, interest, principlePay)
             }
-            console.log(data)
+            // console.log(data)
+
+            // setState(data)
+            // console.log(state)
             return data
+        //    return <AmortLayout props={data}/>
     }
 
+
+     console.log(state)
 
     return (
     <>
@@ -58,7 +70,9 @@ export const Entry = () => {
                 <input type='text' name="duration" value={values.duration} onChange={handleChange}></input>
             </label>
         </div>
-            <button onClick={() => runCals(values) }>Calculate</button>
+            <button onClick={() => setState(runCals(values)) }>Calculate</button>
+            <div>Total Interest Paid: {state.totalInterest ? state.totalInterest : ""} </div>
+            <div>Total Payments: {state.totalPayments ? state.totalPayments : ""} </div>
             
     </>
 
