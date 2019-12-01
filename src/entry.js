@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { useForm } from './useForm'
-import {AmortLayout} from './amortLayout'
 
 export const Entry = () => {
 
@@ -59,19 +58,24 @@ export const Entry = () => {
         //    return <AmortLayout props={data}/>
     }
 
+    const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    })
+
 
    const renderAmort = (state) => {
       
        if (state) {
         let objArr = Object.keys(state).map(key => {
            return (
-<>
+        <>
             <div key={key}>{key}</div>
-            <div >{state[key].payment}</div>
-            <div >{ state[key].interest }</div>
-            <div >{ state[key].principlePay }</div>
-            <div >{ state[key].calcPrinciple }</div>
-         </>       
+            <div >{formatter.format(state[key].payment)}</div>
+            <div >{formatter.format(state[key].interest )}</div>
+            <div >{formatter.format(state[key].principlePay )}</div>
+            <div >{formatter.format(state[key].calcPrinciple )}</div>
+        </>       
                ) 
        })
        
@@ -79,7 +83,7 @@ export const Entry = () => {
     }
 }
 
-      console.log(payments, interest)
+      
 
     return (
     <>
@@ -106,12 +110,12 @@ export const Entry = () => {
             {/* <div className="gridcontainer"> */}
                 
             <div className="flexcontainer">
-                <div >Month</div>
-                <div >Payment</div>
-                <div >Interest</div>
-                <div >Principal</div>
+                <div className="header">Month</div>
+                <div className="header">Payment</div>
+                <div className="header">Interest</div>
+                <div className="header">Principal</div>
                 {/* <div className="month-header">ExtraPayment</div> */}
-                <div >Balance</div>
+                <div className="header">Balance</div>
 
                     {renderAmort(state)}
                 

@@ -45,11 +45,22 @@
 .flexcontainer {
   display: flex;
   flex-direction: row;
-  width: 1000px;
+  width: 1100px;
   flex-wrap: wrap;
+  text-align: center;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.header {
+  background-color: rgb(129, 180, 209);
+  border: 1px solid black;
+
 }
 
 .flexcontainer > div {
   width: 200px;
+  border: 1px solid black;
 }
+
 
