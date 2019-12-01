@@ -4,13 +4,42 @@ import { useForm } from './useForm'
 export const Entry = () => {
 
     const [values, handleChange] = useForm({principle:"", interest: "", duration: "" })
-        console.log(values)
+        // console.log(values)
+
+        let data = {}
 
     const runCals = (vals) => {
         let iterations = vals.duration
         let monthInt = parseFloat(vals.interest) / 1200.0
+        let calcPrinciple = vals.principle
+        let remainingMonths = vals.duration
+        
+        for( let i = 0;i< iterations;i++){
+           
+                let compoundInt = (1+ monthInt )**(remainingMonths-i)
+                let multiplier = (monthInt * compoundInt) / (compoundInt - 1)
+                let payment = Math.round(multiplier * calcPrinciple * 100) /100 
+                let interest = Math.round(calcPrinciple * monthInt * 100) / 100
+                let principlePay = Math.round((payment - interest) * 100) /100
+            if (payment > calcPrinciple){
+                payment = calcPrinciple 
+                interest = Math.round(calcPrinciple * monthInt * 100) / 100
+                principlePay = Math.round((payment - interest) * 100) / 100
+                calcPrinciple = Math.round((calcPrinciple - payment) * 100) / 100
+            } else {
+                calcPrinciple = Math.round((calcPrinciple - principlePay) * 100) /100
 
-        console.log(iterations, monthInt)
+            }
+
+
+
+
+                data[`months${i}`] = {payment, interest, principlePay, calcPrinciple}
+                
+                // console.log(iterations, monthInt, compoundInt, multiplier, payment, interest, principlePay)
+            }
+            console.log(data)
+            return data
     }
 
 
@@ -20,7 +49,7 @@ export const Entry = () => {
         <div className="entryGrid">
 
             <label>New Loan Amount:
-                <input type='text' name="loanAmt" value={values.principle} onChange={handleChange}></input>
+                <input type='text' name="principle" value={values.principle} onChange={handleChange}></input>
             </label>
             <label> Enter Interest Rate (ex. 7.5):
                 <input type='text' name="interest" value={values.interest} onChange={handleChange}></input>
