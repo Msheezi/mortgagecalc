@@ -17,12 +17,12 @@ export const Entry = () => {
     })
 
     // use the function below to create an array to use in creating
-    //extra payments for a particular range of months(indexes) for adding 
-    // extra payments
-    const range = (start, end) => {
+    //extra payments for a particular range of months(indexes) and values for adding 
+    // extra payments.  probably do this for each input range
+    const range = (start, end, value) => {
        let ans = []
         for (let i=start;i<=end;i++){
-            ans.push(i)
+            ans.push([i, value])
         }
         
     }
