@@ -25,3 +25,31 @@
   display: flex;
   flex-direction: column;
 }
+
+.gridcontainer {
+  display:grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-template-areas: 
+  "header"
+  "content";
+}
+
+.month-header {
+  grid-area: header;
+}
+.grid-item {
+  border: 1px solid black
+}
+
+
+.flexcontainer {
+  display: flex;
+  flex-direction: row;
+  width: 1000px;
+  flex-wrap: wrap;
+}
+
+.flexcontainer > div {
+  width: 200px;
+}
+

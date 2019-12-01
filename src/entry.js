@@ -5,7 +5,10 @@ import {AmortLayout} from './amortLayout'
 export const Entry = () => {
 
     const [state, setState] = useState({})
-    const [values, handleChange] = useForm({principle:"", interest: "", duration: "" })
+    const [payments, setPayments] = useState()
+    const [interest, setInterest] = useState()
+
+    const [values, handleChange] = useForm({principle:"", interest: "", duration: "", extraPay: "" })
         // console.log(values)
         let data = {}
 
@@ -39,13 +42,17 @@ export const Entry = () => {
             }
 
                 data[i] = {payment, interest, principlePay, calcPrinciple}
-                data["totalInterest"] = Math.round(totalInt * 100) / 100
-                data["totalPayments"] = Math.round(totalPay *100) / 100
+                // data["totalInterest"] = Math.round(totalInt * 100) / 100
+                // data["totalPayments"] = Math.round(totalPay *100) / 100
                 
                 // console.log(iterations, monthInt, compoundInt, multiplier, payment, interest, principlePay)
             }
             // console.log(data)
+        totalInt = Math.round((totalInt * 100) / 100.00)
+        totalPay = Math.round((totalPay * 100) / 100.00)
 
+        setInterest(totalInt)
+        setPayments(totalPay)
             // setState(data)
             // console.log(state)
             return data
@@ -53,7 +60,26 @@ export const Entry = () => {
     }
 
 
-     console.log(state)
+   const renderAmort = (state) => {
+      
+       if (state) {
+        let objArr = Object.keys(state).map(key => {
+           return (
+<>
+            <div key={key}>{key}</div>
+            <div >{state[key].payment}</div>
+            <div >{ state[key].interest }</div>
+            <div >{ state[key].principlePay }</div>
+            <div >{ state[key].calcPrinciple }</div>
+         </>       
+               ) 
+       })
+       
+       return objArr
+    }
+}
+
+      console.log(payments, interest)
 
     return (
     <>
@@ -69,20 +95,29 @@ export const Entry = () => {
             <label> Enter Duration in Months(ex. 360):
                 <input type='text' name="duration" value={values.duration} onChange={handleChange}></input>
             </label>
+            <label> Extra Monthly Payments:
+                <input type='text' name="extrapay" value={values.extraPay} onChange={handleChange}></input>
+            </label>
         </div>
             <button onClick={() => setState(runCals(values)) }>Calculate</button>
-            <div>Total Interest Paid: {state.totalInterest ? state.totalInterest : ""} </div>
-            <div>Total Payments: {state.totalPayments ? state.totalPayments : ""} </div>
+            <div>Total Interest Paid: {interest ? interest : ""} </div>
+            <div>Total Payments: {payments ? payments: ""} </div>
+            <br/>
+            {/* <div className="gridcontainer"> */}
+                
+            <div className="flexcontainer">
+                <div >Month</div>
+                <div >Payment</div>
+                <div >Interest</div>
+                <div >Principal</div>
+                {/* <div className="month-header">ExtraPayment</div> */}
+                <div >Balance</div>
+
+                    {renderAmort(state)}
+                
+            </div>
             
     </>
 
     )
 }
-
-//mortgage calculation
-
-//M = P[r(1+r)^n/((1+r)^n)-1]
-// M = monthly Payment
-// P = Principal loan amount
-// r = monthly interst rate (interst / 12)
-// n = number of payments over the course of loan 
