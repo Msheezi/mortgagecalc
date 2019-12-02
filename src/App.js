@@ -1,7 +1,8 @@
 import React from 'react';
 
 import './App.css';
-import {Entry} from './entry'
+// import {Entry} from './entry'
+import Entry2 from './entry2'
 
 
 function App() {
@@ -9,7 +10,7 @@ function App() {
 
 
   return (
-    <Entry></Entry>
+    <Entry2/>
   
   );
 }
