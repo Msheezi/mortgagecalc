@@ -196,7 +196,13 @@ const formatter = new Intl.NumberFormat('en-US', {
 
      runAllCalcs() {
          
-
+        if (this.state.calcs.hasOwnProperty(0)){
+            this.setState({calcs:{}})
+        } 
+        
+        if (this.state.extraCalcs.hasOwnProperty(0)){
+            this.setState({ extraCalcs: {} })
+        }
 
          if (this.state.extraPay !== "") {
              //    range(values.start, values.end, values.extraPay)
