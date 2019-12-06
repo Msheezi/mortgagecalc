@@ -14,20 +14,15 @@ const formatter = new Intl.NumberFormat('en-US', {
                 principle: "", 
                 interest: "", 
                 duration: "", 
-                extraPay: "", 
-                start: "",
-                end: "" ,
-            calcs:{
-
-            },
-            extraCalcs:{
-
-            },
-           calcExtraPay: {},
+                
+            calcs:{},
+            extraCalcs:{},
+            calcExtraPay: {},
             ep1: {start: "", end: "", amount: ""},
             ep2: { start: "", end: "", amount: ""},
             ep3: { start: "", end: "", amount: ""},
-            ep4: { start: "", end: "", amount: ""}
+            ep4: { start: "", end: "", amount: ""},
+            runExtras: false
 
         }
 
@@ -115,7 +110,7 @@ const formatter = new Intl.NumberFormat('en-US', {
             //     return result
             // })
 
-            this.setState({calcPayment: result})
+             this.setState({ calcExtraPay: result, runExtras: true}, () => this.runAllCalcs())
             // let ep2 = this.state.ep2
             // let ep3 = this.state.ep3
             // let ep4 = this.state.ep4
@@ -179,13 +174,15 @@ const formatter = new Intl.NumberFormat('en-US', {
             let remainingMonths = this.state.duration
         let totalInt = 0
         let totalPay = 0
-            let extra = parseFloat(this.state.extraPay) // will need to change this to reflect the new method
+            let extra1 = this.state.calcExtraPay
+             // will need to change this to reflect the new method
         let compoundInt = (1 + monthInt) ** (remainingMonths)
         let multiplier = (monthInt * compoundInt) / (compoundInt - 1)
         let calcPayment = Math.round(multiplier * calcPrinciple * 100) / 100
-
+            
             
         for (let i = 0; i < iterations; i++) {
+            let extra = extra1[i+1] ? extra1[i+1] : 0
             if (calcPrinciple === 0) {
                 return this.setState({ extraCalcs: extraData })
             }
@@ -210,15 +207,15 @@ const formatter = new Intl.NumberFormat('en-US', {
                 totalPay += displayPayment
             }
 
-            extraData[i] = { displayPayment, interest, principlePay, calcPrinciple }
+            extraData[i] = { displayPayment, interest, principlePay, calcPrinciple, extra }
 
         }
 
-            console.log(extraData)
-        console.log(extra)
+        //     console.log(extraData)
+        // console.log(extra)
         totalInt = formatter.format(totalInt)
         totalPay = formatter.format(totalPay)
-
+           
         // setInterest(totalInt)
         // setPayments(totalPay)
         // setExtraState(data)
@@ -240,6 +237,8 @@ const formatter = new Intl.NumberFormat('en-US', {
                         <div >{formatter.format(input[key].displayPayment)}</div>
                         <div >{formatter.format(input[key].interest)}</div>
                         <div >{formatter.format(input[key].principlePay)}</div>
+                        <div >{formatter.format(input[key].extra)}</div>
+                        
                         <div >{formatter.format(input[key].calcPrinciple)}</div>
                     </>
 
@@ -260,6 +259,7 @@ const formatter = new Intl.NumberFormat('en-US', {
                          <div >{formatter.format(input[key].payment)}</div>
                          <div >{formatter.format(input[key].interest)}</div>
                          <div >{formatter.format(input[key].principlePay)}</div>
+                         <div >{formatter.format(0)}</div>
                          <div >{formatter.format(input[key].calcPrinciple)}</div>
                      </>
                      
@@ -282,6 +282,8 @@ const formatter = new Intl.NumberFormat('en-US', {
      
 
      runAllCalcs() {
+        //  this.calculateExtraPayments()
+        //  this.runExtraCals(this.state)
          
         if (this.state.calcs.hasOwnProperty(0)){
             this.setState({calcs:{}})
@@ -290,8 +292,10 @@ const formatter = new Intl.NumberFormat('en-US', {
         if (this.state.extraCalcs.hasOwnProperty(0)){
             this.setState({ extraCalcs: {} })
         }
-        this.calculateExtraPayments()
-         if (this.state.extraPay !== "") {
+        
+        //  if ( Object.keys(this.state.calcExtraPay).length > 0)
+        if (this.state.runExtras)
+          {
              //    range(values.start, values.end, values.extraPay)
              //    setState(runCals(values))
              //    setExtraState(runCalsExtra(values))
@@ -381,7 +385,7 @@ const formatter = new Intl.NumberFormat('en-US', {
                 
              </div>
              
-                 <button id="calc-button" onClick={this.runAllCalcs }>Calculate</button>
+                 <button id="calc-button" onClick={this.calculateExtraPayments }>Calculate</button>
              {/* <button onClick={}>Calculate</button> */}
              {/* <div>Total Interest Paid: {interest ? interest : ""} </div>
              <div>Total Payments: {payments ? payments : ""} </div>
@@ -393,7 +397,7 @@ const formatter = new Intl.NumberFormat('en-US', {
                  <div className="header">Payment</div>
                  <div className="header">Interest</div>
                  <div className="header">Principal</div>
-                 {/* <div className="month-header">ExtraPayment</div> */}
+                 <div className="header">ExtraPayment</div>
                  <div className="header">Balance</div>
 
                  { this.renderAmort()}
