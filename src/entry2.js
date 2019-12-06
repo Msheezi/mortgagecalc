@@ -23,11 +23,17 @@ const formatter = new Intl.NumberFormat('en-US', {
             extraCalcs:{
 
             },
-            
+           calcExtraPay: {},
+            ep1: {start: "", end: "", amount: ""},
+            ep2: { start: "", end: "", amount: ""},
+            ep3: { start: "", end: "", amount: ""},
+            ep4: { start: "", end: "", amount: ""}
+
         }
 
         this.runAllCalcs = this.runAllCalcs.bind(this)
         this.renderAmort = this.renderAmort.bind(this)
+        this.calculateExtraPayments = this.calculateExtraPayments.bind(this)
 
          }
 
@@ -37,6 +43,86 @@ const formatter = new Intl.NumberFormat('en-US', {
                this.setState({[field]: e.target.value}
                )
            }  
+         }
+
+         handleExtraInput(field, key){
+            return e => {
+                let newState = {...this.state[key]}
+                newState[field] = e.target.value
+                this.setState({[key]: newState})
+            }
+
+         }
+
+         calculateExtraPayments(){
+
+            let result = {}
+
+            let ep1 = this.state.ep1 
+                for (let i=ep1.start;i<=ep1.end;i++){
+                    
+                        if (!result[i]) {
+                            result[i] = parseFloat(ep1.amount)
+                        } else if (result[i]) {
+                            result[i] += parseFloat(ep1.amount)
+                        }
+                    
+                    
+                }
+             let ep2 = this.state.ep2
+             for (let i = ep2.start; i <= ep2.end; i++) {
+                 
+                     if (!result[i]) {
+                         result[i] = parseFloat(ep2.amount)
+                     } else if (result[i]) {
+                         result[i] += parseFloat(ep2.amount)
+                     }
+                 
+
+             }
+             let ep3 = this.state.ep3
+             for (let i = ep3.start; i <= ep3.end; i++) {
+                 
+                     if (!result[i]) {
+                         result[i] = parseFloat(ep3.amount)
+                     } else if (result[i]) {
+                         result[i] += parseFloat(ep3.amount)
+                     }
+                 
+
+             }
+             let ep4 = this.state.ep4
+             for (let i = ep4.start; i <= ep4.end; i++) {
+                 
+                     if (!result[i]) {
+                         result[i] = parseFloat(ep4.amount)
+                     } else if (result[i]) {
+                         result[i] += parseFloat(ep4.amount)
+                     }
+                 
+
+             }
+
+
+            //  this.state.ep1.forEach(key => {
+            //     for (let i=key.start; i<=key.end;i++){
+            //         if (!result[i]){
+            //             result[i] = key.amount
+            //         } else if (result[i]){
+            //             result[i] += key.amount
+            //         }
+            //     }
+            //     return result
+            // })
+
+            this.setState({calcPayment: result})
+            // let ep2 = this.state.ep2
+            // let ep3 = this.state.ep3
+            // let ep4 = this.state.ep4
+
+
+
+
          }
     
     runCals(){
@@ -204,7 +290,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         if (this.state.extraCalcs.hasOwnProperty(0)){
             this.setState({ extraCalcs: {} })
         }
-
+        this.calculateExtraPayments()
          if (this.state.extraPay !== "") {
              //    range(values.start, values.end, values.extraPay)
              //    setState(runCals(values))
@@ -257,24 +343,24 @@ const formatter = new Intl.NumberFormat('en-US', {
                         <label>Starting Month</label>
                         <label>Ending Month</label>
                         <label>1</label>
-                            <input></input>
-                            <input></input>
-                            <input></input>
+                     <input type='text' name="epAmount1" value={this.state.ep1.amount} onChange={this.handleExtraInput("amount", "ep1")}></input>
+                     <input type='text' name="epStart1" value={this.state.ep1.start} onChange={this.handleExtraInput("start", "ep1")}></input>
+                     <input type='text' name="epEnd1" value={this.state.ep1.end} onChange={this.handleExtraInput("end", "ep1")}></input>
                             
                         <label>2</label>
-                            <input></input>
-                            <input></input>
-                            <input></input>
+                     <input type='text' name="epAmount2" value={this.state.ep2.amount} onChange={this.handleExtraInput("amount", "ep2")}></input>
+                     <input type='text' name="epStart2" value={this.state.ep2.start} onChange={this.handleExtraInput("start", "ep2")}></input>
+                     <input type='text' name="epEnd2" value={this.state.ep2.end} onChange={this.handleExtraInput("end", "ep2")}></input>
                             
                         <label>3</label>
-                            <input></input>
-                            <input></input>
-                            <input></input>
+                     <input type='text' name="epAmount3" value={this.state.ep3.amount} onChange={this.handleExtraInput("amount", "ep3")}></input>
+                     <input type='text' name="epStart3" value={this.state.ep3.start} onChange={this.handleExtraInput("start", "ep3")}></input>
+                     <input type='text' name="epEnd3" value={this.state.ep3.end} onChange={this.handleExtraInput("end", "ep3")}></input>
                             
                         <label>4</label>
-                            <input></input>
-                            <input></input>
-                            <input></input>
+                     <input type='text' name="epAmount4" value={this.state.ep4.amount} onChange={this.handleExtraInput("amount", "ep4")}></input>
+                     <input type='text' name="epStart4" value={this.state.ep4.start} onChange={this.handleExtraInput("start", "ep4")}></input>
+                     <input type='text' name="epEnd4" value={this.state.ep4.end} onChange={this.handleExtraInput("end", "ep4")}></input>
                             
                      
                      {/* <label className="grid-extra1">  </label>
