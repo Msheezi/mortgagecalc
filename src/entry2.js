@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
@@ -11,10 +12,9 @@ const formatter = new Intl.NumberFormat('en-US', {
 
         this.state = {
             
-                principle: "", 
-                interest: "", 
-                duration: "", 
-                
+            principle: "", 
+            interest: "", 
+            duration: "", 
             calcs:{},
             extraCalcs:{},
             calcExtraPay: {},
@@ -22,7 +22,11 @@ const formatter = new Intl.NumberFormat('en-US', {
             ep2: { start: "", end: "", amount: ""},
             ep3: { start: "", end: "", amount: ""},
             ep4: { start: "", end: "", amount: ""},
-            runExtras: false
+            runExtras: false,
+            calcsTotalInt:"",
+            calcsTotalPay:"",
+            extraTotalInt:"",
+            extraTotalPay:""
 
         }
 
@@ -99,24 +103,8 @@ const formatter = new Intl.NumberFormat('en-US', {
              }
 
 
-            //  this.state.ep1.forEach(key => {
-            //     for (let i=key.start; i<=key.end;i++){
-            //         if (!result[i]){
-            //             result[i] = key.amount
-            //         } else if (result[i]){
-            //             result[i] += key.amount
-            //         }
-            //     }
-            //     return result
-            // })
 
              this.setState({ calcExtraPay: result, runExtras: true}, () => this.runAllCalcs())
-            // let ep2 = this.state.ep2
-            // let ep3 = this.state.ep3
-            // let ep4 = this.state.ep4
-
-
-
 
          }
     
@@ -154,7 +142,7 @@ const formatter = new Intl.NumberFormat('en-US', {
             data[i] = { payment, interest, principlePay, calcPrinciple }
             
         }
-        // console.log(data)
+        
         totalInt = formatter.format(totalInt)
         totalPay = formatter.format(totalPay)
 
@@ -163,7 +151,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         // setState(data)
         // console.log(state)
         // debugger
-       return  this.setState({ calcs: data })
+       return  this.setState({ calcs: data, calcsTotalInt: totalInt, calcsTotalPay: totalPay })
     }
 
         runExtraCals(){
@@ -184,7 +172,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         for (let i = 0; i < iterations; i++) {
             let extra = extra1[i+1] ? extra1[i+1] : 0
             if (calcPrinciple === 0) {
-                return this.setState({ extraCalcs: extraData })
+                return this.setState({ extraCalcs: extraData, extraTotalInt: totalInt, extraTotalPay: totalPay })
             }
             let interest = Math.round(calcPrinciple * monthInt * 100) / 100
             let displayPayment = Math.round((calcPayment + extra) * 100) / 100
@@ -366,32 +354,22 @@ const formatter = new Intl.NumberFormat('en-US', {
                      <input type='text' name="epStart4" value={this.state.ep4.start} onChange={this.handleExtraInput("start", "ep4")}></input>
                      <input type='text' name="epEnd4" value={this.state.ep4.end} onChange={this.handleExtraInput("end", "ep4")}></input>
                             
-                     
-                     {/* <label className="grid-extra1">  </label>
-                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
-                     <label className="grid-extra2">  </label>
-                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
-                     <label className="grid-extra3">  </label>
-                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
-                     <label className="grid-extra4">  </label>
-                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
-                */}
-{/* 
-                     <label className="grid-start"> Extra Monthly Payments Start: </label>
-                    <input type='text' name="start" value={this.state.start} onChange={this.handleInput("start")}></input>
-                
-                     <label className="grid-end"> Extra Monthly Payments End: </label>
-                    <input type='text' name="end" value={this.state.end} onChange={this.handleInput("end")}></input> */}
-                
+                                                        
              </div>
              
                  <button id="calc-button" onClick={this.calculateExtraPayments }>Calculate</button>
-             {/* <button onClick={}>Calculate</button> */}
-             {/* <div>Total Interest Paid: {interest ? interest : ""} </div>
-             <div>Total Payments: {payments ? payments : ""} </div>
-             <br />
-             {/* <div className="gridcontainer"> */}
 
+
+                 <div style={{display: "grid" }}> 
+                     Summary: 
+                    <div>{this.state.calcsTotalInt}</div>
+                    <div>{this.state.calcsTotalPay}</div>
+                    <div>{this.state.extraTotalInt}</div>
+                    <div>{this.state.extraTotalPay}</div>
+                     
+                        
+                 </div>
+           
              <div className="flexcontainer">
                  <div className="header">Month</div>
                  <div className="header">Payment</div>
