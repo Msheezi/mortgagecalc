@@ -22,7 +22,8 @@ const formatter = new Intl.NumberFormat('en-US', {
             },
             extraCalcs:{
 
-            }
+            },
+            
         }
 
         this.runAllCalcs = this.runAllCalcs.bind(this)
@@ -233,32 +234,71 @@ const formatter = new Intl.NumberFormat('en-US', {
 
         
          <>
-             <div>Enter Loan Information</div>
-             <div className="entryGrid">
+             <div className="gridcontainer">
+             
+                <div className="grid-header"  >Enter Loan Information</div>
 
-                 <label>New Loan Amount:
-                <input type='text' name="principle" value={this.state.principle} onChange={this.handleInput("principle")}></input>
-                 </label>
-                 <label> Enter Interest Rate (ex. 7.5):
-                <input type='text' name="interest" value={this.state.interest} onChange={this.handleInput("interest")}></input>
-                 </label>
-                 <label> Enter Duration in Months(ex. 360):
-                <input type='text' name="duration" value={this.state.duration} onChange={this.handleInput("duration")}></input>
-                 </label>
-                 <label> Extra Monthly Payments:
-                <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
-                 </label>
-                 <label> Extra Monthly Payments Start:
-                <input type='text' name="start" value={this.state.start} onChange={this.handleInput("start")}></input>
-                 </label>
-                 <label> Extra Monthly Payments End:
-                <input type='text' name="end" value={this.state.end} onChange={this.handleInput("end")}></input>
-                 </label>
+                     <label className="grid-loan-amt">New Loan Amount or Existing Loan Balance</label>
+                    <input className="grid-loan-entry" type='text' name="principle" value={this.state.principle} onChange={this.handleInput("principle")}></input>
+                
+                     <label className="grid-interest"> Enter Interest Rate (ex. 7.5): </label>
+                     <input className="grid-interest-entry" type='text' name="interest" value={this.state.interest} onChange={this.handleInput("interest")}></input>
+                
+                     <label className="grid-duration"> Enter Duration in Months (ex. 360): </label >
+                     <input className="grid-duration-entry" type='text' name="duration" value={this.state.duration} onChange={this.handleInput("duration")}></input>
+               
+               </div>
+                <br/>
+                <div className="extra-pay-grid">
+                
+                <div className="grid-extra-header">Enter Extra Monthly Payments: </div>
+                        <label>Entry</label>
+                        <label>Extra Payment</label>
+                        <label>Starting Month</label>
+                        <label>Ending Month</label>
+                        <label>1</label>
+                            <input></input>
+                            <input></input>
+                            <input></input>
+                            
+                        <label>2</label>
+                            <input></input>
+                            <input></input>
+                            <input></input>
+                            
+                        <label>3</label>
+                            <input></input>
+                            <input></input>
+                            <input></input>
+                            
+                        <label>4</label>
+                            <input></input>
+                            <input></input>
+                            <input></input>
+                            
+                     
+                     {/* <label className="grid-extra1">  </label>
+                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
+                     <label className="grid-extra2">  </label>
+                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
+                     <label className="grid-extra3">  </label>
+                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
+                     <label className="grid-extra4">  </label>
+                    <input type='number' name="extraPay" value={this.state.extraPay} onChange={this.handleInput("extraPay")}></input>
+                */}
+{/* 
+                     <label className="grid-start"> Extra Monthly Payments Start: </label>
+                    <input type='text' name="start" value={this.state.start} onChange={this.handleInput("start")}></input>
+                
+                     <label className="grid-end"> Extra Monthly Payments End: </label>
+                    <input type='text' name="end" value={this.state.end} onChange={this.handleInput("end")}></input> */}
+                
              </div>
-                 <button onClick={this.runAllCalcs }>Calculate</button>
+             
+                 <button id="calc-button" onClick={this.runAllCalcs }>Calculate</button>
              {/* <button onClick={}>Calculate</button> */}
              {/* <div>Total Interest Paid: {interest ? interest : ""} </div>
-             <div>Total Payments: {payments ? payments : ""} </div> */}
+             <div>Total Payments: {payments ? payments : ""} </div>
              <br />
              {/* <div className="gridcontainer"> */}
 

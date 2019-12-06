@@ -26,21 +26,115 @@
   flex-direction: column;
 }
 
+
+/* Entry Grid */
 .gridcontainer {
   display:grid;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-auto-rows: auto ;
   grid-template-areas: 
-  "header"
-  "content";
+  "header header header header header header"
+  "content content content content content content";
+  margin-top: 5px;
 }
 
-.month-header {
+.gridcontainer > input,label {
+  border: 1px solid black;
+
+}
+
+.gridcontainer > label {
+  padding-left: 5px;
+}
+
+
+.grid-header  {
   grid-area: header;
-}
-.grid-item {
-  border: 1px solid black
+  border: 1px solid black;
+  text-align: center;
+  
+  
+
 }
 
+.grid-loan-amt{
+  grid-area: 2 / span 5;
+
+}
+
+.grid-loan-entry {
+  grid-area: 2 
+}
+
+.grid-interest {
+grid-area: 3 / span 5;
+}
+
+.grid-interest-entry {
+  grid-area: 3
+}
+
+.grid-duration {
+grid-area: 4 / span 5;
+}
+
+.grid-duration-entry {
+  grid-area: 4 
+}
+
+.extra-pay-grid {
+  display: grid;
+  margin-bottom: 20px;
+
+}
+
+
+
+.grid-extra-header {
+  grid-area:1 / span 4;
+  text-align: center;
+
+}
+
+.extra-pay-grid > label,input {
+  text-align: center;
+}
+
+.grid-extra1 {
+  grid-area: 7
+}
+.grid-extra2 {
+grid-area: 8
+}
+.grid-extra3 {
+grid-area: 9
+}
+.grid-extra4 {
+grid-area: 10
+}
+
+
+
+.grid-start {
+
+}
+
+.grid-end {
+
+}
+
+
+
+
+.grid-item {
+  
+}
+
+#calc-button {
+  margin: 20px;
+}
+
+/* amort table */
 
 .flexcontainer {
   display: flex;
