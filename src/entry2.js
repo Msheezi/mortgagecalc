@@ -26,13 +26,15 @@ const formatter = new Intl.NumberFormat('en-US', {
             calcsTotalInt:"",
             calcsTotalPay:"",
             extraTotalInt:"",
-            extraTotalPay:""
+            extraTotalPay:"",
+            totalMonths: ""
 
         }
 
         this.runAllCalcs = this.runAllCalcs.bind(this)
         this.renderAmort = this.renderAmort.bind(this)
         this.calculateExtraPayments = this.calculateExtraPayments.bind(this)
+        this.renderSummary = this.renderSummary.bind(this)
 
          }
 
@@ -54,10 +56,17 @@ const formatter = new Intl.NumberFormat('en-US', {
          }
 
          calculateExtraPayments(){
-
+            
+            if (this.state.runExtras){
+                this.setState({runExtras: false})
+            }
             let result = {}
+            let runExtras = false
 
             let ep1 = this.state.ep1 
+                if (ep1.end === "" && ep1.start !== "" ){
+                    ep1.end = this.state.duration
+                }
                 for (let i=ep1.start;i<=ep1.end;i++){
                     
                         if (!result[i]) {
@@ -69,6 +78,9 @@ const formatter = new Intl.NumberFormat('en-US', {
                     
                 }
              let ep2 = this.state.ep2
+             if (ep2.end === "" && ep2.start !== "" ) {
+                 ep2.end = this.state.duration
+             }
              for (let i = ep2.start; i <= ep2.end; i++) {
                  
                      if (!result[i]) {
@@ -80,6 +92,9 @@ const formatter = new Intl.NumberFormat('en-US', {
 
              }
              let ep3 = this.state.ep3
+             if (ep3.end === ""&& ep3.start !== "" ) {
+                 ep3.end = this.state.duration
+             }
              for (let i = ep3.start; i <= ep3.end; i++) {
                  
                      if (!result[i]) {
@@ -91,6 +106,9 @@ const formatter = new Intl.NumberFormat('en-US', {
 
              }
              let ep4 = this.state.ep4
+             if (ep4.end === "" && ep4.start !== "" ) {
+                 ep4.end = this.state.duration
+             }
              for (let i = ep4.start; i <= ep4.end; i++) {
                  
                      if (!result[i]) {
@@ -101,10 +119,12 @@ const formatter = new Intl.NumberFormat('en-US', {
                  
 
              }
+             if (Object.keys(result).length > 1){
+                runExtras = true
+            }
+            
+            this.setState({ calcExtraPay: result, runExtras: runExtras}, () => this.runAllCalcs())
 
-
-
-             this.setState({ calcExtraPay: result, runExtras: true}, () => this.runAllCalcs())
 
          }
     
@@ -143,8 +163,8 @@ const formatter = new Intl.NumberFormat('en-US', {
             
         }
         
-        totalInt = formatter.format(totalInt)
-        totalPay = formatter.format(totalPay)
+        // totalInt = formatter.format(totalInt)
+        // totalPay = formatter.format(totalPay)
 
         // setInterest(totalInt)
         // setPayments(totalPay)
@@ -172,7 +192,9 @@ const formatter = new Intl.NumberFormat('en-US', {
         for (let i = 0; i < iterations; i++) {
             let extra = extra1[i+1] ? extra1[i+1] : 0
             if (calcPrinciple === 0) {
-                return this.setState({ extraCalcs: extraData, extraTotalInt: totalInt, extraTotalPay: totalPay })
+                // totalInt = formatter.format(totalInt)
+                // totalPay = formatter.format(totalPay)
+                return this.setState({ extraCalcs: extraData, extraTotalInt: totalInt, extraTotalPay: totalPay, totalMonths: i })
             }
             let interest = Math.round(calcPrinciple * monthInt * 100) / 100
             let displayPayment = Math.round((calcPayment + extra) * 100) / 100
@@ -201,8 +223,8 @@ const formatter = new Intl.NumberFormat('en-US', {
 
         //     console.log(extraData)
         // console.log(extra)
-        totalInt = formatter.format(totalInt)
-        totalPay = formatter.format(totalPay)
+        // totalInt = formatter.format(totalInt)
+        // totalPay = formatter.format(totalPay)
            
         // setInterest(totalInt)
         // setPayments(totalPay)
@@ -306,8 +328,54 @@ const formatter = new Intl.NumberFormat('en-US', {
          // }
      }
 
+
+     renderSummary(){
+
+        
+        if (this.state.runExtras){
+            
+            let payDiff = (parseFloat(this.state.calcsTotalPay) - parseFloat(this.state.extraTotalPay))
+            let intDiff = (parseFloat(this.state.calcsTotalInt) - parseFloat(this.state.extraTotalInt))
+            let timeDiff = parseInt(this.state.duration) - parseInt(this.state.totalMonths)
+            
+            return (
+           <>
+            <div style={{ display: "grid", gridTemplateColumns: "auto auto auto auto" }}>
+                <div style={{gridArea: "1 / span 4"}}>Summary</div>
+                <div>Legend</div>
+                <div>As Scheduled </div>
+                <div>Accelerated</div>
+                <div>Difference</div>
+                <div>Payments</div>
+                <div>{formatter.format(this.state.calcsTotalPay)}</div>
+                    <div>{formatter.format(this.state.extraTotalPay)}</div>
+                    
+                        <div> {formatter.format(payDiff)}</div>
+                <div>Interest</div>
+                    <div>{formatter.format(this.state.calcsTotalInt)}</div>
+                    <div>{formatter.format(this.state.extraTotalInt)}</div>
+                    <div>{formatter.format(intDiff)}</div>
+                <div>Time</div>
+                <div>{this.state.duration}</div>
+                <div>{this.state.totalMonths}</div>
+                <div>{timeDiff}</div>
+            </div>
+                <br/>
+            <div>Interest Savings: {formatter.format(intDiff)}  </div>
+            <div>Months Paid off Early: {timeDiff}</div>
+            </>
+                   )                                          
+  
+     }
+
+    }
+
      render(){
-         
+            let test
+            if (this.state.runExtras){
+                 test = this.renderSummary()
+            }
+
          return (
 
         
@@ -361,12 +429,7 @@ const formatter = new Intl.NumberFormat('en-US', {
 
 
                  <div style={{display: "grid" }}> 
-                     Summary: 
-                    <div>{this.state.calcsTotalInt}</div>
-                    <div>{this.state.calcsTotalPay}</div>
-                    <div>{this.state.extraTotalInt}</div>
-                    <div>{this.state.extraTotalPay}</div>
-                     
+                     {test}
                         
                  </div>
            
