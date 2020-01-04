@@ -1,4 +1,5 @@
 import React from 'react'
+import {Summary} from './acceleratedSummary'
 
 const initialState = {
     principle: "",
@@ -34,7 +35,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         this.runAllCalcs = this.runAllCalcs.bind(this)
         this.renderAmort = this.renderAmort.bind(this)
         this.calculateExtraPayments = this.calculateExtraPayments.bind(this)
-        this.renderSummary = this.renderSummary.bind(this)
+        
 
          }
 
@@ -168,14 +169,7 @@ const formatter = new Intl.NumberFormat('en-US', {
             
         }
         
-        // totalInt = formatter.format(totalInt)
-        // totalPay = formatter.format(totalPay)
-
-        // setInterest(totalInt)
-        // setPayments(totalPay)
-        // setState(data)
-        // console.log(state)
-        // debugger
+        
        return  this.setState({ calcs: data, calcsTotalInt: totalInt, calcsTotalPay: totalPay, displayAmort: true })
     }
 
@@ -315,56 +309,21 @@ const formatter = new Intl.NumberFormat('en-US', {
      }
 
 
-     renderSummary(){
-
-        
-        if (this.state.runExtras){
-            
-            let payDiff = (parseFloat(this.state.calcsTotalPay) - parseFloat(this.state.extraTotalPay))
-            let intDiff = (parseFloat(this.state.calcsTotalInt) - parseFloat(this.state.extraTotalInt))
-            let timeDiff = parseInt(this.state.duration) - parseInt(this.state.totalMonths)
-            
-            return (
-           <>
-            <div style={{ display: "grid",
-             gridTemplateColumns: "auto auto auto auto",
-              border: "1px solid black", 
-              width: "80%",
-              margin: "10px", 
-              padding: "5px" }}>
-                <div style={{gridArea: "1 / span 4", textAlign: "center"}}>Summary</div>
-                <div>Legend</div>
-                <div>As Scheduled </div>
-                <div>Accelerated</div>
-                <div>Difference</div>
-                <div>Payments</div>
-                <div>{formatter.format(this.state.calcsTotalPay)}</div>
-                    <div>{formatter.format(this.state.extraTotalPay)}</div>
-                    
-                        <div> {formatter.format(payDiff)}</div>
-                <div>Interest</div>
-                    <div>{formatter.format(this.state.calcsTotalInt)}</div>
-                    <div>{formatter.format(this.state.extraTotalInt)}</div>
-                    <div>{formatter.format(intDiff)}</div>
-                <div>Time</div>
-                <div>{this.state.duration}</div>
-                <div>{this.state.totalMonths}</div>
-                <div>{timeDiff}</div>
-            </div>
-                <br/>
-            <div>Interest Savings: {formatter.format(intDiff)}  </div>
-            <div>Months Paid off Early: {timeDiff}</div>
-            </>
-                   )                                          
-  
-     }
-
-    }
+     
 
      render(){
             let test
             if (this.state.runExtras){
-                 test = this.renderSummary()
+                 test = <Summary
+                            runExtras={this.state.runExtras}
+                            calcsTotalPay={this.state.calcsTotalPay} 
+                            calcsTotalInt={this.state.calcsTotalInt} 
+                            extraTotalPay={this.state.extraTotalPay}
+                            extraTotalInt={this.state.extraTotalInt}
+                            duration={this.state.duration}
+                            totalMonths={this.state.totalMonths}
+                            
+                            />
             }
                 let displaym
                 this.state.displayAmort ? displaym = "grid" : displaym = "none"
