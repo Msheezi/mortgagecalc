@@ -1,5 +1,24 @@
 import React from 'react'
 
+const initialState = {
+    principle: "",
+    interest: "",
+    duration: "",
+    calcs: {},
+    extraCalcs: {},
+    calcExtraPay: {},
+    ep1: { start: "", end: "", amount: "" },
+    ep2: { start: "", end: "", amount: "" },
+    ep3: { start: "", end: "", amount: "" },
+    ep4: { start: "", end: "", amount: "" },
+    runExtras: false,
+    calcsTotalInt: "",
+    calcsTotalPay: "",
+    extraTotalInt: "",
+    extraTotalPay: "",
+    totalMonths: "",
+    displayAmort: false
+}
 
 const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
@@ -10,26 +29,7 @@ const formatter = new Intl.NumberFormat('en-US', {
      constructor(props){
          super(props)
 
-        this.state = {
-            
-            principle: "", 
-            interest: "", 
-            duration: "", 
-            calcs:{},
-            extraCalcs:{},
-            calcExtraPay: {},
-            ep1: {start: "", end: "", amount: ""},
-            ep2: { start: "", end: "", amount: ""},
-            ep3: { start: "", end: "", amount: ""},
-            ep4: { start: "", end: "", amount: ""},
-            runExtras: false,
-            calcsTotalInt:"",
-            calcsTotalPay:"",
-            extraTotalInt:"",
-            extraTotalPay:"",
-            totalMonths: ""
-
-        }
+        this.state = initialState
 
         this.runAllCalcs = this.runAllCalcs.bind(this)
         this.renderAmort = this.renderAmort.bind(this)
@@ -38,6 +38,9 @@ const formatter = new Intl.NumberFormat('en-US', {
 
          }
 
+         resetCalcs(){
+             this.setState(initialState)
+         }
 
          handleInput(field){
            return e => {
@@ -62,6 +65,8 @@ const formatter = new Intl.NumberFormat('en-US', {
             }
             let result = {}
             let runExtras = false
+
+
 
             let ep1 = this.state.ep1 
                 if (ep1.end === "" && ep1.start !== "" ){
@@ -171,7 +176,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         // setState(data)
         // console.log(state)
         // debugger
-       return  this.setState({ calcs: data, calcsTotalInt: totalInt, calcsTotalPay: totalPay })
+       return  this.setState({ calcs: data, calcsTotalInt: totalInt, calcsTotalPay: totalPay, displayAmort: true })
     }
 
         runExtraCals(){
@@ -280,20 +285,8 @@ const formatter = new Intl.NumberFormat('en-US', {
          
      }
 
-     whichAmort(){
-         
-         if (this.state.extraCalcs) {
-             return this.state.extraCalcs
-         }
-
-             return this.state
-         }
-
-     
-
      runAllCalcs() {
-        //  this.calculateExtraPayments()
-        //  this.runExtraCals(this.state)
+        
          
         if (this.state.calcs.hasOwnProperty(0)){
             this.setState({calcs:{}})
@@ -303,29 +296,22 @@ const formatter = new Intl.NumberFormat('en-US', {
             this.setState({ extraCalcs: {} })
         }
         
-        //  if ( Object.keys(this.state.calcExtraPay).length > 0)
+        
         if (this.state.runExtras)
           {
-             //    range(values.start, values.end, values.extraPay)
-             //    setState(runCals(values))
-             //    setExtraState(runCalsExtra(values))
+           
              this.runExtraCals(this.state)
-            //  this.runCals(this.state)
-
-             // renderAmort(extraState)
+           
 
 
 
          }
          this.runCals(this.state)
-         // renderAmort(state)
+         
 
 
 
-
-         // else {
-         //     renderAmort(state)
-         // }
+        
      }
 
 
@@ -340,8 +326,13 @@ const formatter = new Intl.NumberFormat('en-US', {
             
             return (
            <>
-            <div style={{ display: "grid", gridTemplateColumns: "auto auto auto auto" }}>
-                <div style={{gridArea: "1 / span 4"}}>Summary</div>
+            <div style={{ display: "grid",
+             gridTemplateColumns: "auto auto auto auto",
+              border: "1px solid black", 
+              width: "80%",
+              margin: "10px", 
+              padding: "5px" }}>
+                <div style={{gridArea: "1 / span 4", textAlign: "center"}}>Summary</div>
                 <div>Legend</div>
                 <div>As Scheduled </div>
                 <div>Accelerated</div>
@@ -375,6 +366,8 @@ const formatter = new Intl.NumberFormat('en-US', {
             if (this.state.runExtras){
                  test = this.renderSummary()
             }
+                let displaym
+                this.state.displayAmort ? displaym = "grid" : displaym = "none"
 
          return (
 
@@ -385,13 +378,23 @@ const formatter = new Intl.NumberFormat('en-US', {
                 <div className="grid-header"  >Enter Loan Information</div>
 
                      <label className="grid-loan-amt">New Loan Amount or Existing Loan Balance</label>
-                    <input className="grid-loan-entry" type='text' name="principle" value={this.state.principle} onChange={this.handleInput("principle")}></input>
+                        <input  className="grid-loan-entry" 
+                            type='text'
+                            name="principle" 
+                            value={this.state.principle} 
+                            onChange={this.handleInput("principle")}></input>
                 
                      <label className="grid-interest"> Enter Interest Rate (ex. 7.5): </label>
-                     <input className="grid-interest-entry" type='text' name="interest" value={this.state.interest} onChange={this.handleInput("interest")}></input>
+                     <input className="grid-interest-entry" 
+                        type='text' name="interest" 
+                        value={this.state.interest} 
+                        onChange={this.handleInput("interest")}></input>
                 
                      <label className="grid-duration"> Enter Duration in Months (ex. 360): </label >
-                     <input className="grid-duration-entry" type='text' name="duration" value={this.state.duration} onChange={this.handleInput("duration")}></input>
+                     <input className="grid-duration-entry" 
+                        type='text' name="duration" 
+                        value={this.state.duration} 
+                        onChange={this.handleInput("duration")}></input>
                
                </div>
                 <br/>
@@ -426,14 +429,16 @@ const formatter = new Intl.NumberFormat('en-US', {
              </div>
              
                  <button id="calc-button" onClick={this.calculateExtraPayments }>Calculate</button>
+                 <button id="calc-button" onClick={() => this.resetCalcs() }>Reset</button>
 
 
                  <div style={{display: "grid" }}> 
                      {test}
                         
                  </div>
-           
-             <div className="flexcontainer">
+            <div style={{ display: displaym }}>
+
+                <div className="flexcontainer" >
                  <div className="header">Month</div>
                  <div className="header">Payment</div>
                  <div className="header">Interest</div>
@@ -444,6 +449,7 @@ const formatter = new Intl.NumberFormat('en-US', {
                  { this.renderAmort()}
 
              </div>
+           </div>
 
              </>)
      }
