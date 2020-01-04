@@ -153,13 +153,14 @@ grid-area: 10
 .flexcontainer {
   display: grid;
   grid-template-columns: repeat(6, auto);
-  flex-direction: row;
+  column-gap: 0px;
   max-width: 80%;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   text-align: center;
   margin-left: 10px;
   margin-bottom: 20px;
   margin-right: 10px;
+  
 
 }
 

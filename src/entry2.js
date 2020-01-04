@@ -1,5 +1,7 @@
 import React from 'react'
 import {Summary} from './acceleratedSummary'
+import { AmortTable } from './amortTable'
+
 
 const initialState = {
     principle: "",
@@ -21,10 +23,10 @@ const initialState = {
     displayAmort: false
 }
 
-const formatter = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
-    })
+// const formatter = new Intl.NumberFormat('en-US', {
+//         style: 'currency',
+//         currency: 'USD',
+//     })
 
  class Entry2 extends React.Component {
      constructor(props){
@@ -33,7 +35,7 @@ const formatter = new Intl.NumberFormat('en-US', {
         this.state = initialState
 
         this.runAllCalcs = this.runAllCalcs.bind(this)
-        this.renderAmort = this.renderAmort.bind(this)
+        // this.renderAmort = this.renderAmort.bind(this)
         this.calculateExtraPayments = this.calculateExtraPayments.bind(this)
         
 
@@ -219,65 +221,10 @@ const formatter = new Intl.NumberFormat('en-US', {
             extraData[i] = { displayPayment, interest, principlePay, calcPrinciple, extra }
 
         }
-
-        //     console.log(extraData)
-        // console.log(extra)
-        // totalInt = formatter.format(totalInt)
-        // totalPay = formatter.format(totalPay)
-           
-        // setInterest(totalInt)
-        // setPayments(totalPay)
-        // setExtraState(data)
-        // console.log(state)
-            
+   
         }
 
-     renderAmort () {
-         let input
-         let objArr
-         
-        if (this.state.extraCalcs.hasOwnProperty(0)) {
-              input = this.state.extraCalcs
-            objArr = Object.keys(input).map(key => {
-                return (
-                    <>
-
-                        <div className="month" key={key}>{parseInt(key) + 1}</div>
-                        <div >{formatter.format(input[key].displayPayment)}</div>
-                        <div >{formatter.format(input[key].interest)}</div>
-                        <div >{formatter.format(input[key].principlePay)}</div>
-                        <div >{formatter.format(input[key].extra)}</div>
-                        
-                        <div >{formatter.format(input[key].calcPrinciple)}</div>
-                    </>
-
-                )
-            })
-
-            return objArr 
-            }
-              
-              else { 
-                  input = this.state.calcs
-        }
-             objArr = Object.keys(input).map(key => {
-                 return (
-                     <>
-
-                         <div className="month" key={key}>{parseInt(key) + 1}</div>
-                         <div >{formatter.format(input[key].payment)}</div>
-                         <div >{formatter.format(input[key].interest)}</div>
-                         <div >{formatter.format(input[key].principlePay)}</div>
-                         <div >{formatter.format(0)}</div>
-                         <div >{formatter.format(input[key].calcPrinciple)}</div>
-                     </>
-                     
-                 )
-             })
-
-         return objArr   
-         
-     }
+   
 
      runAllCalcs() {
         
@@ -303,13 +250,7 @@ const formatter = new Intl.NumberFormat('en-US', {
          this.runCals(this.state)
          
 
-
-
-        
      }
-
-
-     
 
      render(){
             let test
@@ -405,7 +346,10 @@ const formatter = new Intl.NumberFormat('en-US', {
                  <div className="header">ExtraPayment</div>
                  <div className="header">Balance</div>
 
-                 { this.renderAmort()}
+                 <AmortTable
+                    extraCalcs={this.state.extraCalcs}
+                    calcs={this.state.calcs}
+                 />
 
              </div>
            </div>
