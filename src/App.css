@@ -150,7 +150,26 @@ input {
 
 /*summary grid*/
 
-.summary-grid {
+.summarygrid {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  border: 1px solid black;
+  width: 80%;
+  margin: 10px;
+  /* padding: 5px; */
+}
+
+.summarygrid > .header {
+  grid-area: 1 / span 4;
+  text-align: center;
+}
+
+.summarygrid > div {
+  text-align: center;
+}
+
+.summtitle {
+  text-decoration: underline;
 }
 
 /* amort table */
@@ -168,8 +187,9 @@ input {
 }
 
 .header {
-  background-color: #92b4f4;
-  border: 1px solid black;
+  background-color: #1463cb;
+  border-bottom: 1px solid black;
+  color: white;
 }
 
 .flexcontainer > div {
