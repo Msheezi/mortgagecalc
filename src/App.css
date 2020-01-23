@@ -57,6 +57,7 @@ label {
   text-align: center;
   border-radius: 3px;
   background-color: rgb(20, 99, 203);
+  color: white;
 }
 
 .gridcontainer > input {
@@ -99,6 +100,7 @@ label {
   grid-area: 1 / span 4;
   text-align: center;
   background-color: #1463cb;
+  color: white;
 }
 
 .extra-pay-grid > label {
