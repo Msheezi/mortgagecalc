@@ -26,63 +26,65 @@
   flex-direction: column;
 }
 
-
 /* Entry Grid */
 .gridcontainer {
-  display:grid;
+  display: grid;
   grid-template-columns: auto auto auto auto auto auto;
-  grid-auto-rows: auto ;
-  grid-template-areas: 
-  "header header header header header header"
-  "content content content content content content";
+  grid-auto-rows: auto;
+  grid-template-areas:
+    "header header header header header header"
+    "content content content content content content";
   margin-top: 5px;
   margin-left: 10px;
   margin-right: 10px;
-  width:80%;
+  width: 80%;
 }
 
-.gridcontainer > input,label {
+.gridcontainer > input,
+label {
   border: 1px solid black;
-
+  border-radius: 3px;
 }
 
 .gridcontainer > label {
+  background-color: #92b4f4;
   padding-left: 5px;
 }
 
-
-.grid-header  {
+.grid-header {
   grid-area: header;
   border: 1px solid black;
   text-align: center;
-  
-  
-
+  border-radius: 3px;
+  background-color: rgb(20, 99, 203);
 }
 
-.grid-loan-amt{
-  grid-area: 2 / span 5;
+.gridcontainer > input {
+  background-color: rgb(232, 240, 254);
+}
 
+.grid-loan-amt {
+  grid-area: 2 / span 5;
 }
 
 .grid-loan-entry {
-  grid-area: 2 
+  grid-area: 2;
 }
 
 .grid-interest {
-grid-area: 3 / span 5;
+  grid-area: 3 / span 5;
 }
 
 .grid-interest-entry {
-  grid-area: 3
+  grid-area: 3;
 }
 
 .grid-duration {
-grid-area: 4 / span 5;
+  grid-area: 4 / span 5;
 }
 
 .grid-duration-entry {
-  grid-area: 4 
+  grid-area: 4;
 }
 
 .extra-pay-grid {
@@ -91,61 +93,64 @@ grid-area: 4 / span 5;
   margin-left: 10px;
   margin-right: 10px;
   width: 80%;
-
 }
-
-
 
 .grid-extra-header {
-  grid-area:1 / span 4;
+  grid-area: 1 / span 4;
   text-align: center;
-
+  background-color: #1463cb;
 }
 
-.extra-pay-grid > label,input {
+.extra-pay-grid > label {
+  background-color: #92b4f4;
+}
+
+.extra-pay-grid > label,
+input {
   text-align: center;
+  border: 1px solid black;
+  border-radius: 3px;
+}
+.extra-pay-grid > input {
+  /* background-color: #cfdee7; */
+  background-color: rgb(232, 240, 254);
 }
 
 .grid-extra1 {
-  grid-area: 7
+  grid-area: 7;
 }
 .grid-extra2 {
-grid-area: 8
+  grid-area: 8;
 }
 .grid-extra3 {
-grid-area: 9
+  grid-area: 9;
 }
 .grid-extra4 {
-grid-area: 10
+  grid-area: 10;
 }
 
-
-
-.grid-start {
-
+.buttons {
+  width: 150px;
+  border-radius: 5px;
+  height: 2em;
+  color: white;
+  margin-left: 10px;
 }
 
-.grid-end {
-
+#button-calc {
+  background-color: #1c8459;
 }
 
-
-
-
-.grid-item {
-  
+#button-reset {
+  background-color: #7b3e19;
 }
-
 #calc-button {
   margin: 20px;
 }
 
-
-
 /*summary grid*/
 
 .summary-grid {
-  
 }
 
 /* amort table */
@@ -160,21 +165,20 @@ grid-area: 10
   margin-left: 10px;
   margin-bottom: 20px;
   margin-right: 10px;
-  
-
 }
 
 .header {
-  background-color: rgb(129, 180, 209);
+  background-color: #92b4f4;
   border: 1px solid black;
-
 }
 
 .flexcontainer > div {
   width: 200px;
   border: 1px solid black;
+  border-radius: 3px;
+  /* background-color: #99e1d9; */
 }
 
 .month {
-  background-color: coral;
+  background-color: #92b4f4;
 }

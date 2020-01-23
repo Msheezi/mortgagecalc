@@ -1,18 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import './App.css';
+import "./App.css";
 // import {Entry} from './entry'
-import Entry2 from './entry2'
-
+import Calculator from "./entry2";
 
 function App() {
-
-
-
-  return (
-    <Entry2/>
-  
-  );
+  return <Calculator />;
 }
 
 export default App;
