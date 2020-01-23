@@ -173,7 +173,7 @@ class Calculator extends React.Component {
 
     for (let i = 0; i < iterations; i++) {
       let extra = extra1[i + 1] ? extra1[i + 1] : 0;
-      if (calcPrinciple === 0) {
+      if (calcPrinciple <= 0) {
         // totalInt = formatter.format(totalInt)
         // totalPay = formatter.format(totalPay)
         return this.setState({
@@ -188,7 +188,7 @@ class Calculator extends React.Component {
 
       let principlePay =
         Math.round((calcPayment - interest + extra) * 100) / 100;
-      if (calcPayment > calcPrinciple) {
+      if (displayPayment > calcPrinciple) {
         displayPayment = calcPrinciple;
         calcPayment = calcPrinciple;
         interest = Math.round(calcPrinciple * monthInt * 100) / 100;
@@ -391,7 +391,7 @@ class Calculator extends React.Component {
           Reset
         </button>
 
-        <div style={{ display: "grid" }}>{test}</div>
+        <div style={{ display: "grid", marginBottom: "10px" }}>{test}</div>
         <div style={{ display: displaym }}>
           <div className="flexcontainer">
             <div className="header">Month</div>
